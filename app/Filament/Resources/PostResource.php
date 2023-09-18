@@ -18,6 +18,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\RichEditor;
 use Filament\Tables\Columns\BooleanColumn;
 use App\Filament\Resources\PostResource\Pages;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class PostResource extends Resource
 {
@@ -38,6 +40,7 @@ class PostResource extends Resource
                         })->required(),
                         TextInput::make('slug')->required(),
                     RichEditor::make('content'),
+                    SpatieMediaLibraryFileUpload::make('thumbnail')->collection('posts'),
                     Toggle::make('is_published')
                 ])
             ]);
@@ -51,7 +54,8 @@ class PostResource extends Resource
                 TextColumn::make('title')->limit(50)->sortable(),
                 TextColumn::make('content')->words(10)->html()->sortable(),
                 BooleanColumn::make('is_published')->boolean(),
-                TextColumn::make('created_at')->since()->sortable()
+                SpatieMediaLibraryImageColumn::make('thumbnail')->collection('posts'),
+                TextColumn::make('created_at')->since()->sortable(),
             ])
             ->filters([
                 //
